@@ -1,0 +1,17 @@
+[lint]
+select = [
+  "E",    # pycodestyle errors
+  "W",    # pycodestyle warnings
+  "F",    # pyflakes
+  "I",    # isort
+  "UP",   # pyupgrade
+  "B",    # flake8-bugbear
+  "SIM",  # flake8-simplify
+  "RUF",  # ruff-specific
+  "C4",   # flake8-comprehensions
+  "PIE",  # flake8-pie
+  "PERF", # perflint
+]
+ignore = [
+  "E501", # line length handled by formatter
+]

@@ -1,0 +1,50 @@
+[project]
+name = "llmstxt-gen"
+version = "0.1.0"
+description = "Generate llms.txt from built HTML documentation"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+keywords = ["llms", "documentation", "markdown", "mkdocs"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Documentation",
+    "Typing :: Typed",
+]
+
+authors = [{ name = "Shaan Majid", email = "shaanmajid64@gmail.com" }]
+
+dependencies = [
+    "typer>=0.9.0",
+    "pyyaml>=6.0",
+    "beautifulsoup4>=4.12",
+    "markdownify>=0.14,<1.0",
+    "mdformat>=0.7,<0.8",
+    "mdformat-tables>=1.0",
+]
+
+[project.scripts]
+llmstxt-gen = "llmstxt_gen.cli:app"
+
+[project.urls]
+Repository = "https://github.com/shaanmajid/llmstxt-gen"
+
+[dependency-groups]
+dev = [
+    { include-group = "lint" },
+    { include-group = "test" },
+]
+lint = ["ruff>=0.9.0"]
+test = ["pytest>=8.0.0"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
