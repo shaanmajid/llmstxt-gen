@@ -1,0 +1,51 @@
+# Git
+.git/
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.python-version
+*.egg-info/
+build/
+dist/
+wheels/
+
+# Virtual environments (uv creates dependencies in container)
+.venv/
+
+# Testing
+.coverage
+.pytest_cache/
+htmlcov/
+
+# Environment variables (secrets should use Docker secrets or env vars)
+.env
+.env.local
+.env.*.local
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose*.yml
+
+# Documentation and project files
+*.md
+LICENSE
+docs/
+
+# CI/CD
+.github/
+.gitlab-ci.yml
