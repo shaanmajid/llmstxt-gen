@@ -1,6 +1,6 @@
-"""Example tests for the python_template package."""
+"""Example tests for the llmstxt_gen package."""
 
-from python_template import __version__
+from llmstxt_gen import __version__
 
 
 def test_version() -> None:

@@ -39,4 +39,4 @@ USER app
 WORKDIR /app
 
 # Default command (customize for your application)
-CMD ["python", "-m", "python_template"]
+CMD ["python", "-m", "llmstxt_gen"]
