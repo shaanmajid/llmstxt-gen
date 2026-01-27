@@ -21,7 +21,7 @@ def _should_remove(tag: Tag) -> bool:
     return "tabbed-labels" in classes
 
 
-def _autoclean(soup: BeautifulSoup) -> None:
+def _autoclean(soup: BeautifulSoup | Tag) -> None:
     """Remove unwanted elements from HTML."""
     for element in soup.find_all(_should_remove):
         element.decompose()
