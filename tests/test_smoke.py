@@ -24,7 +24,7 @@ def site_copy(tmp_path: Path) -> Path:
 
 
 def test_smoke_cli_subprocess(site_copy: Path) -> None:
-    """End-to-end test: run llmstxt-gen as subprocess and verify output."""
+    """End-to-end test: run llmstxt-standalone as subprocess and verify output."""
     site_dir = site_copy / "site"
     config_path = FIXTURES / "mkdocs_with_llmstxt.yml"
 
@@ -33,7 +33,7 @@ def test_smoke_cli_subprocess(site_copy: Path) -> None:
         [
             sys.executable,
             "-m",
-            "llmstxt_gen.cli",
+            "llmstxt_standalone.cli",
             "--config",
             str(config_path),
             "--site-dir",
@@ -80,7 +80,7 @@ def test_smoke_cli_verbose(site_copy: Path) -> None:
         [
             sys.executable,
             "-m",
-            "llmstxt_gen.cli",
+            "llmstxt_standalone.cli",
             "--config",
             str(config_path),
             "--site-dir",
@@ -102,14 +102,14 @@ def test_smoke_cli_verbose(site_copy: Path) -> None:
 def test_smoke_cli_version() -> None:
     """Test CLI version flag works."""
     result = subprocess.run(
-        [sys.executable, "-m", "llmstxt_gen.cli", "--version"],
+        [sys.executable, "-m", "llmstxt_standalone.cli", "--version"],
         capture_output=True,
         text=True,
         timeout=10,
     )
 
     assert result.returncode == 0
-    assert "llmstxt-gen" in result.stdout
+    assert "llmstxt-standalone" in result.stdout
 
 
 def test_smoke_output_content_structure(site_copy: Path) -> None:
@@ -121,7 +121,7 @@ def test_smoke_output_content_structure(site_copy: Path) -> None:
         [
             sys.executable,
             "-m",
-            "llmstxt_gen.cli",
+            "llmstxt_standalone.cli",
             "--config",
             str(config_path),
             "--site-dir",

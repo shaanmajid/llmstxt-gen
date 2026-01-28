@@ -1,4 +1,4 @@
-# llmstxt-gen
+# llmstxt-standalone
 
 Generate `/llms.txt` and `/llms-full.txt` from built HTML documentation, following the [llms.txt spec](https://llmstxt.org/).
 
@@ -7,22 +7,22 @@ Generate `/llms.txt` and `/llms-full.txt` from built HTML documentation, followi
 ## Installation
 
 ```bash
-uv tool install llmstxt-gen
+uv tool install llmstxt-standalone
 # or
-pipx install llmstxt-gen
+pipx install llmstxt-standalone
 ```
 
 ## Usage
 
 ```bash
 # Run from project root (looks for mkdocs.yml + site/)
-llmstxt-gen
+llmstxt-standalone
 
 # Explicit paths
-llmstxt-gen --config mkdocs.yml --site-dir ./build --output-dir ./dist
+llmstxt-standalone --config mkdocs.yml --site-dir ./build --output-dir ./dist
 
 # Show help
-llmstxt-gen -h
+llmstxt-standalone -h
 ```
 
 ### CLI Options

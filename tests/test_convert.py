@@ -1,6 +1,6 @@
 """Tests for HTML to Markdown conversion."""
 
-from llmstxt_gen.convert import html_to_markdown
+from llmstxt_standalone.convert import html_to_markdown
 
 
 def test_html_to_markdown_basic():

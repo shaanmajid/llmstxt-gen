@@ -90,7 +90,7 @@ jobs:
       attestations: write # Required for artifact attestations
     environment:
       name: pypi
-      url: https://pypi.org/project/llmstxt-gen/${{ needs.build.outputs.version }}/
+      url: https://pypi.org/project/llmstxt-standalone/${{ needs.build.outputs.version }}/
     steps:
       - uses: astral-sh/setup-uv@61cb8a9741eeb8a550a1b8544337180c0fc8476b # v7.2.0
 
@@ -122,13 +122,13 @@ jobs:
           # Create a temporary project to install the package
           uv init --no-progress verify-install
           cd verify-install
-          uv add "llmstxt-gen==$EXPECTED_VERSION"
+          uv add "llmstxt-standalone==$EXPECTED_VERSION"
 
           # Verify the CLI is accessible and shows help
-          uv run llmstxt-gen --help
+          uv run llmstxt-standalone --help
 
           # Verify version matches
-          version_output=$(uv run llmstxt-gen --version)
+          version_output=$(uv run llmstxt-standalone --version)
           echo "Version output: $version_output"
           echo "$version_output" | grep -q "$EXPECTED_VERSION" || {
             echo "::error::Version mismatch in installed package"

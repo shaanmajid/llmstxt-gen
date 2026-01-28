@@ -2,8 +2,8 @@
 
 from pathlib import Path
 
-from llmstxt_gen.config import load_config
-from llmstxt_gen.generate import (
+from llmstxt_standalone.config import load_config
+from llmstxt_standalone.generate import (
     generate_llms_txt,
     md_path_to_html_path,
     md_path_to_md_url,

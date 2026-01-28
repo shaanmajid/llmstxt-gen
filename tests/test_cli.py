@@ -4,7 +4,7 @@ from pathlib import Path
 
 from typer.testing import CliRunner
 
-from llmstxt_gen.cli import app
+from llmstxt_standalone.cli import app
 
 runner = CliRunner()
 FIXTURES = Path(__file__).parent / "fixtures"

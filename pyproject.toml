@@ -1,5 +1,5 @@
 [project]
-name = "llmstxt-gen"
+name = "llmstxt-standalone"
 version = "0.1.0"
 description = "Generate llms.txt from built HTML documentation"
 readme = "README.md"
@@ -33,11 +33,11 @@ dependencies = [
 ]
 
 [project.scripts]
-llmstxt-gen = "llmstxt_gen.cli:app"
+llmstxt-standalone = "llmstxt_standalone.cli:app"
 
 [project.urls]
-Repository = "https://github.com/shaanmajid/llmstxt-gen"
-Issues = "https://github.com/shaanmajid/llmstxt-gen/issues"
+Repository = "https://github.com/shaanmajid/llmstxt-standalone"
+Issues = "https://github.com/shaanmajid/llmstxt-standalone/issues"
 
 [dependency-groups]
 dev = [

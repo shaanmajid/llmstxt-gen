@@ -7,9 +7,9 @@ from typing import Annotated
 
 import typer
 
-from llmstxt_gen import __version__
-from llmstxt_gen.config import load_config
-from llmstxt_gen.generate import generate_llms_txt
+from llmstxt_standalone import __version__
+from llmstxt_standalone.config import load_config
+from llmstxt_standalone.generate import generate_llms_txt
 
 app = typer.Typer(
     help="Generate llms.txt from built HTML documentation.",
@@ -20,7 +20,7 @@ app = typer.Typer(
 
 def version_callback(value: bool) -> None:
     if value:
-        typer.echo(f"llmstxt-gen {__version__}")
+        typer.echo(f"llmstxt-standalone {__version__}")
         raise typer.Exit()
 
 

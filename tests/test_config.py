@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from llmstxt_gen.config import load_config
+from llmstxt_standalone.config import load_config
 
 FIXTURES = Path(__file__).parent / "fixtures"
 

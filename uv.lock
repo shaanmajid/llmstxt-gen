@@ -58,7 +58,7 @@ wheels = [
 ]
 
 [[package]]
-name = "llmstxt-gen"
+name = "llmstxt-standalone"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [

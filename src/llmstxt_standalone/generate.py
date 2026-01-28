@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from llmstxt_gen.config import Config
-from llmstxt_gen.convert import html_to_markdown
+from llmstxt_standalone.config import Config
+from llmstxt_standalone.convert import html_to_markdown
 
 
 def md_path_to_html_path(site_dir: Path, md_path: str) -> Path:
