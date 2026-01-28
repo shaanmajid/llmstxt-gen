@@ -91,7 +91,8 @@ def html_to_markdown(html: str, content_selector: str | None = None) -> str:
         content = soup.select_one(content_selector)
     else:
         content = (
-            soup.select_one(".md-content__inner")
+            soup.select_one(".md-content__inner")  # Material for MkDocs
+            or soup.select_one('[role="main"]')  # Default MkDocs theme
             or soup.select_one("article")
             or soup.select_one("main")
             or soup
