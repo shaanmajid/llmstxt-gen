@@ -40,10 +40,12 @@ Repository = "https://github.com/shaanmajid/llmstxt-gen"
 
 [dependency-groups]
 dev = [
+    { include-group = "hooks" },
     { include-group = "lint" },
     { include-group = "typecheck" },
     { include-group = "test" },
 ]
+hooks = ["prek>=0.3.0"]
 lint = ["ruff>=0.14.14"]
 typecheck = ["ty>=0.0.14"]
 test = ["pytest>=8.0.0"]
