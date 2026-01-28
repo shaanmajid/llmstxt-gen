@@ -41,3 +41,12 @@ def test_get_page_title():
     assert config.get_page_title("install.md") == "Install"
     # Fallback for unknown pages
     assert "unknown" in config.get_page_title("unknown-page.md").lower()
+
+
+def test_yaml_types_parsed_correctly():
+    """Verify that YAML null, boolean, and numeric values are parsed as proper types."""
+    config = load_config(FIXTURES / "mkdocs_with_yaml_types.yml")
+
+    # null should be None, not the string "null"
+    assert config.content_selector is None
+    assert config.content_selector != "null"

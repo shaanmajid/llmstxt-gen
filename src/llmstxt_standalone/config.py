@@ -60,7 +60,7 @@ def load_config(config_path: Path) -> Config:
         raise FileNotFoundError(f"Config file not found: {config_path}")
 
     with open(config_path, encoding="utf-8") as f:
-        raw = yaml.load(f, Loader=yaml.BaseLoader)
+        raw = yaml.load(f, Loader=yaml.SafeLoader)
 
     site_name = raw.get("site_name", "Documentation")
     site_description = raw.get("site_description", "")
