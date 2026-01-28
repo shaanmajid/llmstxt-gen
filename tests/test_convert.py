@@ -47,3 +47,24 @@ def test_html_to_markdown_preserves_code_language():
     result = html_to_markdown(html)
     assert "```python" in result
     assert 'print("hello")' in result
+
+
+def test_html_to_markdown_default_mkdocs_theme():
+    """Test that [role="main"] selector works for default MkDocs theme."""
+    html = """
+    <html>
+    <body>
+    <nav class="navbar"><a href="/">Home</a></nav>
+    <div class="col-md-9" role="main">
+        <h1>Main Content</h1>
+        <p>This should be extracted.</p>
+    </div>
+    <footer>Footer</footer>
+    </body>
+    </html>
+    """
+    result = html_to_markdown(html)
+    assert "# Main Content" in result
+    assert "This should be extracted" in result
+    assert "navbar" not in result.lower()
+    assert "Footer" not in result
