@@ -92,6 +92,8 @@ jobs:
       name: pypi
       url: https://pypi.org/project/llmstxt-gen/${{ needs.build.outputs.version }}/
     steps:
+      - uses: astral-sh/setup-uv@61cb8a9741eeb8a550a1b8544337180c0fc8476b # v7.2.0
+
       - name: Download distribution artifacts
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
@@ -99,9 +101,7 @@ jobs:
           path: dist/
 
       - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e # v1.13.0
-        with:
-          attestations: true
+        run: uv publish --publish-attestations
 
   verify:
     name: Verify installation
