@@ -19,6 +19,15 @@ def test_load_config_with_llmstxt_plugin():
     assert config.full_output == "llms-full.txt"
     assert "Getting Started" in config.sections
     assert config.sections["Getting Started"] == ["index.md", "install.md"]
+    # Default: use_directory_urls is True when not specified
+    assert config.use_directory_urls is True
+
+
+def test_load_config_use_directory_urls_false():
+    config = load_config(FIXTURES / "mkdocs_no_directory_urls.yml")
+
+    assert config.site_name == "Test Site"
+    assert config.use_directory_urls is False
 
 
 def test_load_config_nav_fallback():

@@ -8,11 +8,24 @@ from llmstxt_standalone.config import Config
 from llmstxt_standalone.convert import html_to_markdown
 
 
-def md_path_to_html_path(site_dir: Path, md_path: str) -> Path:
-    """Convert docs/foo.md path to site/foo/index.html path."""
+def md_path_to_html_path(
+    site_dir: Path, md_path: str, use_directory_urls: bool = True
+) -> Path:
+    """Convert docs/foo.md path to site HTML path.
+
+    Args:
+        site_dir: Path to the built site directory.
+        md_path: Relative markdown file path (e.g., "install.md").
+        use_directory_urls: If True, maps to foo/index.html; if False, maps to foo.html.
+
+    Returns:
+        Path to the corresponding HTML file.
+    """
     if md_path == "index.md":
         return site_dir / "index.html"
-    return site_dir / md_path.replace(".md", "") / "index.html"
+    if use_directory_urls:
+        return site_dir / md_path.replace(".md", "") / "index.html"
+    return site_dir / md_path.replace(".md", ".html")
 
 
 def md_path_to_md_url(site_url: str, md_path: str) -> str:
@@ -72,7 +85,7 @@ def generate_llms_txt(
 
     # Convert pages for llms-full.txt
     for title, md_path in all_pages:
-        html_path = md_path_to_html_path(site_dir, md_path)
+        html_path = md_path_to_html_path(site_dir, md_path, config.use_directory_urls)
 
         if not html_path.exists():
             if verbose:

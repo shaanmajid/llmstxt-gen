@@ -12,7 +12,8 @@ from llmstxt_standalone.generate import (
 FIXTURES = Path(__file__).parent / "fixtures"
 
 
-def test_md_path_to_html_path():
+def test_md_path_to_html_path_with_directory_urls():
+    """Test path conversion when use_directory_urls is True (default)."""
     site_dir = Path("/site")
 
     assert md_path_to_html_path(site_dir, "index.md") == Path("/site/index.html")
@@ -22,6 +23,27 @@ def test_md_path_to_html_path():
     assert md_path_to_html_path(site_dir, "guide/intro.md") == Path(
         "/site/guide/intro/index.html"
     )
+    # Explicit True
+    assert md_path_to_html_path(
+        site_dir, "install.md", use_directory_urls=True
+    ) == Path("/site/install/index.html")
+
+
+def test_md_path_to_html_path_without_directory_urls():
+    """Test path conversion when use_directory_urls is False."""
+    site_dir = Path("/site")
+
+    # index.md always maps to index.html regardless of setting
+    assert md_path_to_html_path(site_dir, "index.md", use_directory_urls=False) == Path(
+        "/site/index.html"
+    )
+    # Other pages map to foo.html instead of foo/index.html
+    assert md_path_to_html_path(
+        site_dir, "install.md", use_directory_urls=False
+    ) == Path("/site/install.html")
+    assert md_path_to_html_path(
+        site_dir, "guide/intro.md", use_directory_urls=False
+    ) == Path("/site/guide/intro.html")
 
 
 def test_md_path_to_md_url():
