@@ -21,6 +21,7 @@ class Config:
     content_selector: str | None
     sections: dict[str, list[str]]
     nav: list[Any]
+    use_directory_urls: bool = True
 
     def get_page_title(self, md_path: str) -> str:
         """Find the title for a page from the nav structure."""
@@ -66,6 +67,9 @@ def load_config(config_path: Path) -> Config:
     site_description = raw.get("site_description", "")
     site_url = raw.get("site_url", "").rstrip("/")
     nav = raw.get("nav", [])
+    # MkDocs defaults use_directory_urls to true; YAML BaseLoader returns strings
+    use_directory_urls_raw = raw.get("use_directory_urls", "true")
+    use_directory_urls = use_directory_urls_raw not in ("false", "False", False)
 
     # Extract llmstxt plugin config if present
     llmstxt_config = _get_llmstxt_config(raw)
@@ -91,6 +95,7 @@ def load_config(config_path: Path) -> Config:
         content_selector=content_selector,
         sections=sections,
         nav=nav,
+        use_directory_urls=use_directory_urls,
     )
 
 
