@@ -46,7 +46,8 @@ def test_md_path_to_html_path_without_directory_urls():
     ) == Path("/site/guide/intro.html")
 
 
-def test_md_path_to_md_url():
+def test_md_path_to_md_url_with_directory_urls():
+    """Test URL generation when use_directory_urls is True (default)."""
     site_url = "https://example.com"
 
     assert md_path_to_md_url(site_url, "index.md") == "https://example.com/"
@@ -54,6 +55,26 @@ def test_md_path_to_md_url():
     assert (
         md_path_to_md_url(site_url, "guide/intro.md")
         == "https://example.com/guide/intro/"
+    )
+
+
+def test_md_path_to_md_url_without_directory_urls():
+    """Test URL generation when use_directory_urls is False."""
+    site_url = "https://example.com"
+
+    # index.md always maps to root
+    assert (
+        md_path_to_md_url(site_url, "index.md", use_directory_urls=False)
+        == "https://example.com/"
+    )
+    # Other pages map to .html
+    assert (
+        md_path_to_md_url(site_url, "install.md", use_directory_urls=False)
+        == "https://example.com/install.html"
+    )
+    assert (
+        md_path_to_md_url(site_url, "guide/intro.md", use_directory_urls=False)
+        == "https://example.com/guide/intro.html"
     )
 
 

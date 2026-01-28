@@ -28,11 +28,24 @@ def md_path_to_html_path(
     return site_dir / md_path.replace(".md", ".html")
 
 
-def md_path_to_md_url(site_url: str, md_path: str) -> str:
-    """Convert docs/foo.md path to HTML page URL on the deployed site."""
+def md_path_to_md_url(
+    site_url: str, md_path: str, use_directory_urls: bool = True
+) -> str:
+    """Convert docs/foo.md path to HTML page URL on the deployed site.
+
+    Args:
+        site_url: Base URL of the site.
+        md_path: Relative markdown file path (e.g., "install.md").
+        use_directory_urls: If True, URLs end with /; if False, URLs end with .html.
+
+    Returns:
+        URL to the page on the deployed site.
+    """
     if md_path == "index.md":
         return f"{site_url}/"
-    return f"{site_url}/{md_path.replace('.md', '')}/"
+    if use_directory_urls:
+        return f"{site_url}/{md_path.replace('.md', '')}/"
+    return f"{site_url}/{md_path.replace('.md', '.html')}"
 
 
 def generate_llms_txt(
@@ -77,7 +90,7 @@ def generate_llms_txt(
 
         for page in pages:
             title = config.get_page_title(page)
-            md_url = md_path_to_md_url(config.site_url, page)
+            md_url = md_path_to_md_url(config.site_url, page, config.use_directory_urls)
             llms_lines.append(f"- [{title}]({md_url})")
             all_pages.append((title, page))
 
