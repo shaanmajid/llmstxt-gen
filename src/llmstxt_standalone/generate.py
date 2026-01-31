@@ -10,13 +10,13 @@ from llmstxt_standalone.convert import extract_title_from_html, html_to_markdown
 
 
 def _escape_markdown_link_text(text: str) -> str:
-    """Escape characters that break markdown link syntax.
+    r"""Escape characters that break markdown link syntax.
 
     Args:
         text: The link text to escape.
 
     Returns:
-        Text with [ and ] escaped as \\[ and \\].
+        Text with [ and ] escaped as \[ and \].
     """
     return text.replace("[", r"\[").replace("]", r"\]")
 
@@ -267,6 +267,7 @@ def generate_llms_txt(
         site_dir: Path to built HTML site directory.
         output_dir: Path to write output files. Defaults to site_dir.
         dry_run: If True, don't write markdown files.
+
     Returns:
         GenerateResult with content and list of markdown files (written or would-be).
     """

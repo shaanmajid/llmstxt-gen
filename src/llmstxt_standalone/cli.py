@@ -19,6 +19,7 @@ app = typer.Typer(
 
 
 def version_callback(value: bool) -> None:
+    """Print version and exit if --version flag is set."""
     if value:
         typer.echo(f"llmstxt-standalone {__version__}")
         raise typer.Exit()
