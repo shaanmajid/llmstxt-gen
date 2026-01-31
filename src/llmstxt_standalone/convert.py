@@ -81,6 +81,7 @@ def extract_title_from_html(html: str, site_name: str | None = None) -> str | No
 
     Args:
         html: Raw HTML content.
+        site_name: Site name to strip from title suffixes (e.g., "Page - Site").
 
     Returns:
         The page title, or None if not found.

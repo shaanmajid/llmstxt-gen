@@ -25,7 +25,7 @@ class _PermissiveLoader(yaml.SafeLoader):
 
 
 def _ignore_unknown(loader: yaml.Loader, tag_suffix: str, node: yaml.Node) -> str:
-    """Constructor that returns the raw tag as a placeholder string."""
+    """Return the raw tag as a placeholder string."""
     return f"<{node.tag}>"
 
 
