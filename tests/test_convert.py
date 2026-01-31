@@ -90,7 +90,7 @@ def test_extract_title_from_html_strips_site_suffix():
     </html>
     """
     # Should return just the page title, not "Page Title - My Site"
-    assert extract_title_from_html(html) == "Page Title"
+    assert extract_title_from_html(html, site_name="My Site") == "Page Title"
 
 
 def test_extract_title_from_html_fallback_to_h1():
@@ -113,6 +113,12 @@ def test_extract_title_from_html_multiple_dashes():
     """Test that only the last dash-separated segment is stripped."""
     html = "<html><head><title>API - Authentication - My Site</title></head></html>"
     # Should preserve "API - Authentication", only strip " - My Site"
+    assert extract_title_from_html(html, site_name="My Site") == "API - Authentication"
+
+
+def test_extract_title_from_html_does_not_strip_dash_in_title():
+    """Test that titles with dashes are preserved when no site suffix is present."""
+    html = "<html><head><title>API - Authentication</title></head></html>"
     assert extract_title_from_html(html) == "API - Authentication"
 
 

@@ -73,11 +73,11 @@ _converter = MarkdownConverter(
 )
 
 
-def extract_title_from_html(html: str) -> str | None:
+def extract_title_from_html(html: str, site_name: str | None = None) -> str | None:
     """Extract page title from HTML.
 
     Tries <title> tag first, then falls back to first <h1>.
-    Strips common site name suffixes (e.g., "Page - Site Name" -> "Page").
+    Strips site name suffixes (e.g., "Page - Site Name" -> "Page") when provided.
 
     Args:
         html: Raw HTML content.
@@ -91,9 +91,11 @@ def extract_title_from_html(html: str) -> str | None:
     title_tag = soup.find("title")
     if title_tag:
         title = title_tag.get_text().strip()
-        # Strip site name suffix (common pattern: "Page Title - Site Name")
-        if " - " in title:
-            title = title.rsplit(" - ", 1)[0].strip()
+        # Strip site name suffix only when it matches the configured site name.
+        if site_name and " - " in title:
+            base, suffix = title.rsplit(" - ", 1)
+            if suffix.strip().casefold() == site_name.strip().casefold():
+                title = base.strip()
         if title:
             return title
 

@@ -168,7 +168,9 @@ def generate_llms_txt(
                 continue
 
             # Extract title from HTML, fall back to config title
-            title = extract_title_from_html(html) or config.get_page_title(md_path)
+            title = extract_title_from_html(
+                html, site_name=config.site_name
+            ) or config.get_page_title(md_path)
 
             page_url = md_path_to_page_url(
                 config.site_url,
