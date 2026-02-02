@@ -74,6 +74,10 @@ def _config_from_mkdocs(raw: dict[str, Any]) -> Config:
         full_output = llmstxt_config.get("full_output", DEFAULT_FULL_OUTPUT)
         content_selector = llmstxt_config.get("content_selector")
         sections = llmstxt_config.get("sections", {})
+        if not isinstance(sections, dict):
+            raise ValueError(
+                f"llmstxt 'sections' must be a mapping, got {type(sections).__name__}"
+            )
     else:
         markdown_description = ""
         full_output = DEFAULT_FULL_OUTPUT
