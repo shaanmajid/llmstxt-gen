@@ -166,3 +166,25 @@ def test_nav_bare_strings_included_in_sections():
     assert "Guide" in config.sections
     assert "install.md" in config.sections["Guide"]
     assert "usage.md" in config.sections["Guide"]
+
+
+def test_load_config_sections_string_raises_error():
+    """Test that sections configured as a string raises ValueError.
+
+    Users may misconfigure sections as a string instead of a mapping:
+        sections: index.md  # Wrong! Should be dict
+    """
+    with pytest.raises(ValueError, match="'sections' must be a mapping, got str"):
+        load_config(FIXTURES / "mkdocs_sections_string.yml")
+
+
+def test_load_config_sections_list_raises_error():
+    """Test that sections configured as a list raises ValueError.
+
+    Users may misconfigure sections as a list instead of a mapping:
+        sections:
+          - index.md
+          - install.md
+    """
+    with pytest.raises(ValueError, match="'sections' must be a mapping, got list"):
+        load_config(FIXTURES / "mkdocs_sections_list.yml")

@@ -1,0 +1,8 @@
+site_name: Test Site
+site_description: A test site with invalid sections config
+
+plugins:
+  - llmstxt:
+      sections:
+        - index.md
+        - install.md
