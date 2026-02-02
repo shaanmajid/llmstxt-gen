@@ -103,8 +103,11 @@ jobs:
           name: dist
           path: dist/
 
+      - name: Generate attestations
+        uses: astral-sh/attest-action@2c727738cea36d6c97dd85eb133ea0e0e8fe754b # v0.0.4
+
       - name: Publish to PyPI
-        run: uv publish --publish-attestations
+        run: uv publish
 
   release:
     name: Create GitHub Release
