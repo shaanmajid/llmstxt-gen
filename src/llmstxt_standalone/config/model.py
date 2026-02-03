@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 from typing import Any
 
+from pydantic import BaseModel
 
-@dataclass
-class Config:
+
+class Config(BaseModel):
     """Resolved configuration for llmstxt generation."""
 
     site_name: str

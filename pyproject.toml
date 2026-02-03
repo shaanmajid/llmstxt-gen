@@ -31,6 +31,7 @@ dependencies = [
     "markdownify>=0.14,<2.0",
     "mdformat>=0.7,<2.0",
     "mdformat-tables>=1.0",
+    "pydantic>=2.12.5",
 ]
 
 [project.scripts]
