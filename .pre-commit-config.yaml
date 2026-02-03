@@ -47,6 +47,7 @@ repos:
       - id: check-merge-conflict
       - id: check-toml
       - id: check-yaml
+        exclude: mkdocs_with_python_tags\.yml$
       - id: detect-private-key
       - id: end-of-file-fixer
       - id: pretty-format-json
