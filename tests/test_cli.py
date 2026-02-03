@@ -362,6 +362,31 @@ def test_init_quiet_failure():
     assert result.output.strip() == ""
 
 
+def test_init_malformed_yaml(tmp_path: Path):
+    """Test init handles malformed YAML with clean error message."""
+    config = tmp_path / "mkdocs.yml"
+    config.write_text("site_name: Test\n  bad_indent: value\n", encoding="utf-8")
+
+    result = runner.invoke(app, ["init", "--config", str(config)])
+
+    assert result.exit_code == 1
+    assert "error" in result.output.lower()
+    assert "yaml" in result.output.lower()
+
+
+def test_init_malformed_yaml_quiet(tmp_path: Path):
+    """Test init --quiet suppresses output on malformed YAML."""
+    config = tmp_path / "mkdocs.yml"
+    config.write_text("site_name: Test\n  bad_indent: value\n", encoding="utf-8")
+
+    result = runner.invoke(app, ["init", "--config", str(config), "--quiet"])
+
+    assert result.exit_code == 1
+    assert result.output.strip() == ""
+    # Should be a clean exit (SystemExit), not an unhandled YAML exception
+    assert result.exception is None or isinstance(result.exception, SystemExit)
+
+
 def test_init_verbose(tmp_path: Path):
     """Test init --verbose shows extra details."""
     config = tmp_path / "mkdocs.yml"
@@ -386,6 +411,26 @@ def test_init_quiet_force(tmp_path: Path):
     assert result.output.strip() == ""
     content = config.read_text(encoding="utf-8")
     assert "llmstxt" in content
+
+
+def test_init_read_only_config(tmp_path: Path):
+    """Test init handles read-only config file with clean error message."""
+    import os
+
+    config = tmp_path / "mkdocs.yml"
+    config.write_text("site_name: Test\n", encoding="utf-8")
+    os.chmod(config, 0o444)  # Read-only
+
+    try:
+        result = runner.invoke(app, ["init", "--config", str(config)])
+
+        assert result.exit_code == 1
+        assert "error" in result.output.lower()
+        assert "permission" in result.output.lower()
+        # Should be a clean exit, not an unhandled exception
+        assert result.exception is None or isinstance(result.exception, SystemExit)
+    finally:
+        os.chmod(config, 0o644)  # Restore permissions for cleanup
 
 
 # Tests for validate subcommand

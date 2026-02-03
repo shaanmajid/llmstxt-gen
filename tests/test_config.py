@@ -226,3 +226,21 @@ def test_load_config_null_fields_use_defaults(tmp_path: Path):
     assert cfg.site_name == "Documentation"  # default
     assert cfg.site_url == ""
     assert cfg.sections == {}  # empty nav -> no sections
+
+
+def test_load_config_deeply_nested_nav_raises_error(tmp_path: Path):
+    """Test that excessively deep nav nesting raises ValueError, not RecursionError."""
+    # Build a deeply nested nav structure as a string (500 levels - exceeds recursion limit)
+    # We build the YAML manually to avoid recursion in the test setup
+    lines = ["site_name: Test", "nav:"]
+    for i in range(500):
+        indent = "  " * (i + 1)
+        lines.append(f"{indent}- Level{i}:")
+    # Add the final page at the deepest level
+    lines.append("  " * 501 + "- page.md")
+
+    config_path = tmp_path / "mkdocs.yml"
+    config_path.write_text("\n".join(lines), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="nav structure too deeply nested"):
+        load_config(config_path)

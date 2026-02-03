@@ -9,6 +9,7 @@ from typing import Annotated
 import typer
 import yaml
 from ruamel.yaml import YAML
+from ruamel.yaml import YAMLError as RuamelYAMLError
 
 from llmstxt_standalone import __version__
 from llmstxt_standalone.config import load_config
@@ -239,11 +240,15 @@ def init(
         )
         raise typer.Exit(1)
 
-    yaml = YAML()
-    yaml.preserve_quotes = True
+    yaml_parser = YAML()
+    yaml_parser.preserve_quotes = True
 
-    with open(config, encoding="utf-8") as f:
-        data = yaml.load(f)
+    try:
+        with open(config, encoding="utf-8") as f:
+            data = yaml_parser.load(f)
+    except RuamelYAMLError as e:
+        log(f"Error: Invalid YAML: {e}", color="red", err=True)
+        raise typer.Exit(1) from None
 
     if data is None:
         data = {}
@@ -260,17 +265,15 @@ def init(
         )
         raise typer.Exit(1)
     data["plugins"] = plugins
-    has_llmstxt = False
 
     if isinstance(plugins, list):
-        for plugin in plugins:
-            if plugin == "llmstxt" or (
-                isinstance(plugin, dict) and "llmstxt" in plugin
-            ):
-                has_llmstxt = True
-                break
+        has_llmstxt = any(
+            p == "llmstxt" or (isinstance(p, dict) and "llmstxt" in p) for p in plugins
+        )
     elif isinstance(plugins, dict):
         has_llmstxt = "llmstxt" in plugins
+    else:
+        has_llmstxt = False
 
     if has_llmstxt and not force:
         log("Error: llmstxt plugin already configured.", color="red", err=True)
@@ -307,8 +310,12 @@ def init(
         data["plugins"]["llmstxt"] = {}
 
     # Write the file
-    with open(config, "w", encoding="utf-8") as f:
-        yaml.dump(data, f)
+    try:
+        with open(config, "w", encoding="utf-8") as f:
+            yaml_parser.dump(data, f)
+    except PermissionError:
+        log(f"Error: Permission denied writing to {config}", color="red", err=True)
+        raise typer.Exit(1) from None
 
     # Now add comments using string manipulation since ruamel.yaml comment API is complex
     content = config.read_text(encoding="utf-8")
@@ -356,7 +363,11 @@ def init(
     if ends_with_newline:
         content += "\n"
 
-    config.write_text(content, encoding="utf-8")
+    try:
+        config.write_text(content, encoding="utf-8")
+    except PermissionError:
+        log(f"Error: Permission denied writing to {config}", color="red", err=True)
+        raise typer.Exit(1) from None
 
     log(f"Added llmstxt plugin to {config}")
     log_verbose(
