@@ -28,21 +28,25 @@ uv add llmstxt-standalone  # or: pip install
 
 ## Usage
 
+### build
+
+Generate llms.txt from a built MkDocs site:
+
 ```bash
 # Run from project root (expects mkdocs.yml and site/)
-llmstxt-standalone
+llmstxt-standalone build
 
 # Explicit paths
-llmstxt-standalone --config mkdocs.yml --site-dir ./build --output-dir ./dist
+llmstxt-standalone build --config mkdocs.yml --site-dir ./build --output-dir ./dist
 
 # Preview without writing files
-llmstxt-standalone --dry-run
+llmstxt-standalone build --dry-run
 
 # Suppress output
-llmstxt-standalone --quiet
+llmstxt-standalone build --quiet
 
 # Show detailed progress
-llmstxt-standalone --verbose
+llmstxt-standalone build --verbose
 ```
 
 | Option | Short | Default | Description |
@@ -53,11 +57,56 @@ llmstxt-standalone --verbose
 | `--dry-run` | `-n` | | Preview without writing |
 | `--quiet` | `-q` | | Suppress output |
 | `--verbose` | `-v` | | Show detailed progress |
-| `--version` | `-V` | | Show version |
+
+### init
+
+Add llmstxt plugin configuration to an existing mkdocs.yml:
+
+```bash
+llmstxt-standalone init
+
+# Specify config path
+llmstxt-standalone init --config path/to/mkdocs.yml
+
+# Overwrite existing llmstxt config
+llmstxt-standalone init --force
+```
+
+| Option | Short | Description |
+|--------|-------|-------------|
+| `--config` | `-c` | Path to mkdocs.yml (default: mkdocs.yml) |
+| `--force` | `-f` | Overwrite existing llmstxt section |
+
+### validate
+
+Check that a config file is valid:
+
+```bash
+$ llmstxt-standalone validate
+Config valid: mkdocs.yml
+  Site: My Project
+  Sections: 3
+  Pages: 12
+
+# Exit code only (for scripts)
+llmstxt-standalone validate --quiet
+```
+
+| Option | Short | Description |
+|--------|-------|-------------|
+| `--config` | `-c` | Path to mkdocs.yml (default: mkdocs.yml) |
+| `--quiet` | `-q` | Exit code only, no output |
+
+### Global options
+
+```bash
+llmstxt-standalone --version  # Show version
+llmstxt-standalone --help     # Show available commands
+```
 
 ## Output
 
-The tool generates three outputs:
+The `build` command generates three outputs:
 
 1. `llms.txt` — an index file with markdown links to all pages
 1. `llms-full.txt` — concatenated content of all pages

@@ -211,3 +211,18 @@ def test_load_config_sections_value_nonstring_item_raises_error():
         match="'sections\\.Getting Started' entries must be strings, got int",
     ):
         load_config(FIXTURES / "mkdocs_sections_value_nonstring_item.yml")
+
+
+def test_load_config_null_fields_use_defaults(tmp_path: Path):
+    """Test that null site_name/site_url/nav use sensible defaults."""
+    config_path = tmp_path / "mkdocs.yml"
+    config_path.write_text(
+        "site_name:\nsite_url:\nnav:\n",
+        encoding="utf-8",
+    )
+
+    cfg = load_config(config_path)
+
+    assert cfg.site_name == "Documentation"  # default
+    assert cfg.site_url == ""
+    assert cfg.sections == {}  # empty nav -> no sections

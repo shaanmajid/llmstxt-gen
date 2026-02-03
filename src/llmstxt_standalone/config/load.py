@@ -34,6 +34,15 @@ _PermissiveLoader.add_multi_constructor("tag:yaml.org,2002:python/", _ignore_unk
 _PermissiveLoader.add_multi_constructor("!python/", _ignore_unknown)
 
 
+def _coerce_str(value: Any, label: str, default: str) -> str:
+    """Coerce a possibly-null value to string, or raise on invalid types."""
+    if value is None:
+        return default
+    if isinstance(value, str):
+        return value
+    raise ValueError(f"{label} must be a string, got {type(value).__name__}")
+
+
 def load_config(config_path: Path) -> Config:
     """Load and resolve configuration from mkdocs.yml.
 
@@ -60,10 +69,14 @@ def load_config(config_path: Path) -> Config:
 
 def _config_from_mkdocs(raw: dict[str, Any]) -> Config:
     """Build a Config from a parsed mkdocs.yml mapping."""
-    site_name = raw.get("site_name", DEFAULT_SITE_NAME)
-    site_description = raw.get("site_description", "")
-    site_url = raw.get("site_url", "").rstrip("/")
+    site_name = _coerce_str(raw.get("site_name"), "site_name", DEFAULT_SITE_NAME)
+    site_description = _coerce_str(raw.get("site_description"), "site_description", "")
+    site_url = _coerce_str(raw.get("site_url"), "site_url", "").rstrip("/")
     nav = raw.get("nav", [])
+    if nav is None:
+        nav = []
+    if not isinstance(nav, list):
+        raise ValueError(f"mkdocs 'nav' must be a list, got {type(nav).__name__}")
     # MkDocs defaults use_directory_urls to true
     use_directory_urls = raw.get("use_directory_urls", True)
 
