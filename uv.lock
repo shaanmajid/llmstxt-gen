@@ -220,19 +220,6 @@ dev = [
     { name = "ruff" },
     { name = "ty" },
 ]
-hooks = [
-    { name = "prek" },
-]
-lint = [
-    { name = "ruff" },
-]
-test = [
-    { name = "pytest" },
-    { name = "pytest-cov" },
-]
-typecheck = [
-    { name = "ty" },
-]
 
 [package.metadata]
 requires-dist = [
@@ -254,13 +241,6 @@ dev = [
     { name = "ruff", specifier = ">=0.14.14" },
     { name = "ty", specifier = ">=0.0.14" },
 ]
-hooks = [{ name = "prek", specifier = ">=0.3.0" }]
-lint = [{ name = "ruff", specifier = ">=0.14.14" }]
-test = [
-    { name = "pytest", specifier = ">=8.0.0" },
-    { name = "pytest-cov", specifier = ">=6.0.0" },
-]
-typecheck = [{ name = "ty", specifier = ">=0.0.14" }]
 
 [[package]]
 name = "markdown-it-py"
