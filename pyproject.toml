@@ -43,15 +43,12 @@ Issues = "https://github.com/shaanmajid/llmstxt-standalone/issues"
 
 [dependency-groups]
 dev = [
-    { include-group = "hooks" },
-    { include-group = "lint" },
-    { include-group = "typecheck" },
-    { include-group = "test" },
+    "prek>=0.3.0",
+    "ruff>=0.14.14",
+    "ty>=0.0.14",
+    "pytest>=8.0.0",
+    "pytest-cov>=6.0.0",
 ]
-hooks = ["prek>=0.3.0"]
-lint = ["ruff>=0.14.14"]
-typecheck = ["ty>=0.0.14"]
-test = ["pytest>=8.0.0", "pytest-cov>=6.0.0"]
 
 [tool.uv]
 # renovate: datasource=pypi depName=uv
