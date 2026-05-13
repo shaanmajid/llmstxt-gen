@@ -5,13 +5,17 @@
     ":configMigration",
     "helpers:pinGitHubActionDigests",
   ],
-  schedule: ["before 9am on the first day of the month"],
+  schedule: ["before 9am on monday"],
   timezone: "America/Los_Angeles",
   labels: ["dependencies"],
   prConcurrentLimit: 3,
   branchConcurrentLimit: 3,
   minimumReleaseAge: "7 days",
   internalChecksFilter: "strict",
+  lockFileMaintenance: {
+    enabled: true,
+    schedule: ["before 9am on monday"],
+  },
   "pre-commit": {
     enabled: true,
   },
@@ -66,7 +70,13 @@
     {
       groupName: "uv",
       groupSlug: "uv",
-      matchPackageNames: ["uv", "astral-sh/uv-pre-commit", "astral-sh/setup-uv"],
+      matchPackageNames: [
+        "uv",
+        "uv_build",
+        "uv-build",
+        "astral-sh/uv-pre-commit",
+        "astral-sh/setup-uv",
+      ],
     },
     {
       groupName: "prek",
