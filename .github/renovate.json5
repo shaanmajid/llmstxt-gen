@@ -47,17 +47,6 @@
         "#\\s*renovate:\\s*datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)\\s*\\nrequires\\s*=\\s*\\[\"[^\"]+<=(?<currentValue>[\\d.]+)",
       ],
     },
-    {
-      // Match zizmor version input in zizmor-action
-      customType: "regex",
-      managerFilePatterns: ["/^\\.github/workflows/.*\\.ya?ml$/"],
-      matchStrings: [
-        "uses:\\s*zizmorcore/zizmor-action@[^\\n]+\\n\\s*with:\\s*\\n\\s*version:\\s*v(?<currentValue>[\\d.]+)",
-      ],
-      depNameTemplate: "zizmorcore/zizmor",
-      datasourceTemplate: "github-releases",
-      extractVersionTemplate: "^(?<version>.*)$",
-    },
   ],
   packageRules: [
     // groupSlug forces shared branches across managers so cross-manager group members consolidate into one PR
@@ -78,16 +67,6 @@
       groupName: "uv",
       groupSlug: "uv",
       matchPackageNames: ["uv", "astral-sh/uv-pre-commit", "astral-sh/setup-uv"],
-    },
-    {
-      groupName: "zizmor",
-      groupSlug: "zizmor",
-      matchPackageNames: [
-        "zizmor",
-        "zizmorcore/zizmor",
-        "zizmorcore/zizmor-pre-commit",
-        "zizmorcore/zizmor-action",
-      ],
     },
     {
       groupName: "prek",
