@@ -84,7 +84,7 @@ jobs:
 
       - name: Install built wheel and test dependencies
         run: |
-          uv sync --locked --only-group test
+          uv sync --locked
           uv pip install dist/*.whl --force-reinstall
 
       - name: Run smoke tests
