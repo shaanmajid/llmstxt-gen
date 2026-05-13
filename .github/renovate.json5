@@ -5,18 +5,22 @@
     ":configMigration",
     "helpers:pinGitHubActionDigests",
   ],
-  schedule: ["before 9am on monday"],
+  schedule: ["before 9am on the first day of the month"],
   timezone: "America/Los_Angeles",
   labels: ["dependencies"],
-  prHourlyLimit: 10,
+  prConcurrentLimit: 3,
+  branchConcurrentLimit: 3,
   minimumReleaseAge: "7 days",
   internalChecksFilter: "strict",
-  lockFileMaintenance: {
-    enabled: true,
-    schedule: ["before 9am on monday"],
-  },
   "pre-commit": {
     enabled: true,
+  },
+  vulnerabilityAlerts: {
+    enabled: true,
+    schedule: ["at any time"],
+    labels: ["security"],
+    prCreation: "immediate",
+    minimumReleaseAge: null,
   },
   customManagers: [
     {
@@ -56,42 +60,28 @@
     },
   ],
   packageRules: [
-    // Group all GitHub Actions updates
+    // groupSlug forces shared branches across managers so cross-manager group members consolidate into one PR
     {
       groupName: "GitHub Actions",
+      groupSlug: "github-actions",
       matchManagers: ["github-actions"],
       matchUpdateTypes: ["minor", "patch"],
     },
-    // Group all pre-commit hook updates
-    {
-      groupName: "pre-commit hooks",
-      matchManagers: ["pre-commit"],
-      matchUpdateTypes: ["minor", "patch"],
-    },
-    // Group Python dependencies
-    {
-      groupName: "Python dependencies",
-      matchManagers: ["uv"],
-      matchUpdateTypes: ["minor", "patch"],
-    },
-    // Sync ruff versions across pre-commit and pyproject.toml
     {
       groupName: "ruff",
+      groupSlug: "ruff",
       matchPackageNames: ["ruff", "astral-sh/ruff-pre-commit"],
     },
-    // Sync uv versions (setup-uv action, pre-commit, required-version, uv_build)
+    // uv_build's renovate comment is aliased to depName=uv in pyproject.toml,
+    // so uv + uv_build + uv-pre-commit + setup-uv all land in one PR per release
     {
       groupName: "uv",
-      matchPackageNames: [
-        "uv",
-        "uv_build",
-        "astral-sh/uv-pre-commit",
-        "astral-sh/setup-uv",
-      ],
+      groupSlug: "uv",
+      matchPackageNames: ["uv", "astral-sh/uv-pre-commit", "astral-sh/setup-uv"],
     },
-    // Sync zizmor versions (action, pre-commit hook, and version input)
     {
       groupName: "zizmor",
+      groupSlug: "zizmor",
       matchPackageNames: [
         "zizmor",
         "zizmorcore/zizmor",
@@ -99,12 +89,11 @@
         "zizmorcore/zizmor-action",
       ],
     },
-    // Sync prek versions (action input and pyproject.toml)
     {
       groupName: "prek",
+      groupSlug: "prek",
       matchPackageNames: ["prek", "j178/prek-action"],
     },
-    // Labels for different ecosystems
     {
       matchManagers: ["github-actions"],
       addLabels: ["github-actions"],
